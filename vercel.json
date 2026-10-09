@@ -1,0 +1,11 @@
+{
+  "buildCommand": "cd frontend-pwa && npm install && npm run build",
+  "outputDirectory": "frontend-pwa/dist",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

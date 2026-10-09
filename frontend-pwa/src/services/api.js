@@ -3,26 +3,28 @@
  * Provides seamless connectivity to Node.js/FastAPI gateways with zero-failure local fallback.
  */
 
-const NODE_API_URL = 'http://localhost:5000';
-const PYTHON_API_URL = 'http://localhost:8000';
+const NODE_API_URL = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost:5000' : '');
+const PYTHON_API_URL = import.meta.env.VITE_PYTHON_API_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
 
 export async function submitCampaignToAgents({ inputText, targetLanguage, threadId }) {
-  try {
-    // Try Node.js Express Bridge first
-    const res = await fetch(`${NODE_API_URL}/api/campaigns/process`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        input_text: inputText,
-        target_language: targetLanguage,
-        thread_id: threadId
-      })
-    });
-    if (res.ok) {
-      return await res.json();
+  if (NODE_API_URL) {
+    try {
+      // Try Node.js Express Bridge first
+      const res = await fetch(`${NODE_API_URL}/api/campaigns/process`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          input_text: inputText,
+          target_language: targetLanguage,
+          thread_id: threadId
+        })
+      });
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch (err) {
+      console.warn('[NetsaGuard API] Backend offline, engaging High-Fidelity Client-Side LangGraph Simulation Engine:', err);
     }
-  } catch (err) {
-    console.warn('[NetsaGuard API] Backend offline, engaging High-Fidelity Client-Side LangGraph Simulation Engine:', err);
   }
 
   // Live High-Fidelity Client-Side LangGraph Simulation Fallback
@@ -30,22 +32,24 @@ export async function submitCampaignToAgents({ inputText, targetLanguage, thread
 }
 
 export async function resumeCampaignHITL({ threadId, action, reviewerNotes, editedText, previousState }) {
-  try {
-    const res = await fetch(`${NODE_API_URL}/api/campaigns/resume`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        thread_id: threadId,
-        action,
-        reviewer_notes: reviewerNotes,
-        edited_text: editedText
-      })
-    });
-    if (res.ok) {
-      return await res.json();
+  if (NODE_API_URL) {
+    try {
+      const res = await fetch(`${NODE_API_URL}/api/campaigns/resume`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          thread_id: threadId,
+          action,
+          reviewer_notes: reviewerNotes,
+          edited_text: editedText
+        })
+      });
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch (err) {
+      console.warn('[NetsaGuard API] Resuming via Client-Side Checkpointer:', err);
     }
-  } catch (err) {
-    console.warn('[NetsaGuard API] Resuming via Client-Side Checkpointer:', err);
   }
 
   // Client Simulation of Finalizer & Cryptographic Manifest Signing
