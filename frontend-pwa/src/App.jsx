@@ -7,6 +7,7 @@ import CriticMeter from './components/CriticMeter';
 import DiffViewer from './components/DiffViewer';
 import HITLModal from './components/HITLModal';
 import CryptographicManifest from './components/CryptographicManifest';
+import Footer from './components/Footer';
 import { submitCampaignToAgents, resumeCampaignHITL } from './services/api';
 import { CAMPAIGN_PRESETS } from './utils/mockData';
 import { Terminal, Shield, Activity, Radio, Cpu, Layers } from 'lucide-react';
@@ -244,6 +245,9 @@ export default function App() {
           isResuming={isResuming}
         />
       </div>
+
+      {/* Footer: Author, LinkedIn, GitHub & SafeTech Africa HackLab */}
+      <Footer />
     </>
   );
 }
