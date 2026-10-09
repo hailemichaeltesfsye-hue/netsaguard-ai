@@ -16,6 +16,10 @@
 
 ---
 
+## 🚀 Live Demo
+You can access the live operational portal here: [NetsaGuard AI Live App](https://netsaguard-dxa6r43es-coremind2.vercel.app/)
+
+
 ## Table of Contents
 
 1. [Executive Summary & Problem Statement](#-executive-summary--problem-statement)
