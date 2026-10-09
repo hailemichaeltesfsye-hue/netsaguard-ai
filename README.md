@@ -11,7 +11,7 @@
 [![Firebase](https://img.shields.io/badge/Database-Firebase%20Firestore-FFA611?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-> **3rd-Year University Graduation Capstone Project & Hackathon Showcase**
+> **Hailemichael Tesfaye's Capstone Project & Hackathon Showcase**
 > *Africa-First Digital Rights Defense, Censorship Evasion, Multilingual Agentic Orchestration & Decentralized Privacy Governance.*
 
 ---
