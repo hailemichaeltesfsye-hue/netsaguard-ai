@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Cpu, Globe, Search, ShieldCheck, Sparkles, Scale, Lock,
   PauseCircle, Award, RotateCw, Zap
@@ -96,54 +96,46 @@ export default function NetworkGraph({
 
   const isSelfHealingActive = revisionCount > 0 && !isCompleted;
 
-  // â”€â”€ Particle animation loop â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  const SPEED = 0.008; // fraction of edge per frame (â‰ˆ60fps â†’ ~2s crossing)
-  const SPAWN_RATE = 60; // frames between automatic spawns per active edge
+  // All edges always carry particles: active = fast+bright, inactive = slow+dim
   const frameRef = useRef(0);
 
   useEffect(() => {
-    const activeEdgeIds = AGENT_EDGE_MAP[currentNode] || [];
+    const ALL_EDGE_IDS = [...EDGES.map(e => e.id), 'sh-loop'];
+
+    // Seed one staggered particle per edge so graph is instantly alive
+    setParticles(ALL_EDGE_IDS.map((eid, i) => ({
+      id: particleIdRef.current++,
+      edgeId: eid,
+      t: i / ALL_EDGE_IDS.length,
+      active: false,
+      isSelfHeal: eid === 'sh-loop',
+    })));
 
     const animate = () => {
       frameRef.current++;
+      const activeSet = new Set(AGENT_EDGE_MAP[currentNode] || []);
 
       setParticles(prev => {
-        let next = prev
-          .map(p => ({ ...p, t: p.t + SPEED }))
-          .filter(p => p.t < 1.02);
-
-        // Spawn new packets on active edges
-        if (frameRef.current % SPAWN_RATE === 0) {
-          activeEdgeIds.forEach(eid => {
-            const edge = EDGES.find(e => e.id === eid);
-            if (!edge) return;
-            next = [...next, {
-              id: particleIdRef.current++,
-              edgeId: eid,
-              t: 0,
-              color: edge.color,
-              isSelfHeal: false,
-            }];
-          });
-
-          // Self-healing loop
-          if (isSelfHealingActive && frameRef.current % (SPAWN_RATE * 2) === 0) {
-            next = [...next, {
-              id: particleIdRef.current++,
-              edgeId: 'sh-loop',
-              t: 0,
-              color: '#FFB800',
-              isSelfHeal: true,
-            }];
+        const next = [];
+        for (const p of prev) {
+          const isActive = activeSet.has(p.edgeId) || (p.isSelfHeal && isSelfHealingActive);
+          const speed = isActive ? 0.013 : 0.0035;
+          const newT = p.t + speed;
+          next.push({ ...p, t: newT >= 1 ? 0 : newT, active: isActive });
+        }
+        // Extra packets on active edges for density
+        if (frameRef.current % 40 === 0) {
+          for (const eid of activeSet) {
+            next.push({ id: particleIdRef.current++, edgeId: eid, t: 0, active: true, isSelfHeal: false });
+          }
+          if (isSelfHealingActive && frameRef.current % 80 === 0) {
+            next.push({ id: particleIdRef.current++, edgeId: 'sh-loop', t: 0, active: true, isSelfHeal: true });
           }
         }
-
         return next;
       });
-
       animRef.current = requestAnimationFrame(animate);
     };
-
     animRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animRef.current);
   }, [currentNode, isSelfHealingActive]);
@@ -258,22 +250,21 @@ export default function NetworkGraph({
             style={isSelfHealingActive ? { animation: 'dashFlow 0.8s linear infinite', filter: 'drop-shadow(0 0 8px #FFB800)' } : {}}
           />
 
-          {/* â”€â”€ Data-Packet Particles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+          {/* Data-Packet Particles: always on, active=bright, inactive=dim */}
           {particles.map(p => {
+            const edge = EDGES.find(e => e.id === p.edgeId);
+            const edgeColor = p.isSelfHeal ? '#FFB800' : (edge ? edge.color : '#00FFA3');
             const pos = getParticlePos(p.edgeId, p.t, SVG_W, SVG_H);
-            const opacity = p.t < 0.1 ? p.t * 10 : p.t > 0.88 ? (1 - p.t) * 8 : 1;
+            const baseOpacity = p.active ? 1 : 0.28;
+            const radius = p.active ? 4 : 2.5;
             return (
-              <g key={p.id} filter="url(#glow4)">
-                {/* Outer glow ring */}
-                <circle cx={pos.x} cy={pos.y} r="8" fill={p.color} opacity={opacity * 0.3} />
-                {/* Core packet */}
-                <circle cx={pos.x} cy={pos.y} r="4" fill={p.color} opacity={opacity} />
-                {/* White center spark */}
-                <circle cx={pos.x} cy={pos.y} r="1.8" fill="#FFFFFF" opacity={opacity * 0.9} />
+              <g key={p.id} filter={p.active ? 'url(#glow4)' : 'url(#glow2)'}>
+                <circle cx={pos.x} cy={pos.y} r={radius * 2} fill={edgeColor} opacity={baseOpacity * 0.25} />
+                <circle cx={pos.x} cy={pos.y} r={radius} fill={edgeColor} opacity={baseOpacity} />
+                {p.active && <circle cx={pos.x} cy={pos.y} r='1.8' fill='#FFFFFF' opacity='0.88' />}
               </g>
             );
           })}
-
           {/* â”€â”€ Agent Nodes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           {NODE_META.map(node => {
             const pos = NODE_POSITIONS[node.id];
