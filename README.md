@@ -55,92 +55,69 @@ Existing Western-centric moderation tools fail catastrophically on African lingu
 
 ```mermaid
 flowchart TB
-    %% ================================================================
-    %%  TIER 1 — PRESENTATION
-    %% ================================================================
-    subgraph T1["TIER 1  |  Presentation & Human-in-the-Loop  (React PWA)"]
-        direction LR
-        USER(["Digital Rights\nDefender / Moderator"])
-        PWA["React Afro-Cyber PWA\nlocalhost:5173"]
-        DAG["Neural DAG Radar\nLive Agent Monitor"]
-        HITLM["HITL Approval Modal\nSide-by-Side Diff"]
-        CRYPT["Crypto Manifest\nVerification Card"]
-        USER -->|campaign text| PWA
-        PWA --- DAG
-        PWA --- HITLM
-        PWA --- CRYPT
-    end
-
-    %% ================================================================
-    %%  TIER 2 — GATEWAY
-    %% ================================================================
-    subgraph T2["TIER 2  |  Express Gateway & Firebase Persistence  (Node.js)"]
-        direction LR
-        NODE["Node.js Express\nGateway  :5000"]
-        FIRE[("Firebase Firestore\nAudit Trail + Auth")]
-        MEM[("In-Memory Store\nOffline Demo Fallback")]
-        NODE <-->|audit trails| FIRE
-        FIRE -.-|offline switch| MEM
-    end
-
-    %% ================================================================
-    %%  TIER 3 — AGENTIC ENGINE
-    %% ================================================================
-    subgraph T3["TIER 3  |  LangGraph Multi-Agent Orchestrator  (FastAPI  :8000)"]
+    subgraph UI ["Tier 1: Magic Afro-Cyber PWA (Port 5173)"]
         direction TB
-        FAPI["FastAPI ASGI\nCORS + REST Endpoints"]
+        CANVAS["Agentic Matrix Canvas Backdrop\n(Dynamic Agent-Reactive Glow)"]
+        HEADER["Multilingual Cyber Header\n(6 Languages: English, Amharic, Swahili, Afaan Oromo, French, Hausa)"]
+        DAG["Interactive LangGraph Flow Graph Radar\n(Real-time State Traversal & Self-Healing Loop)"]
+        INPUT["Broadcast Terminal & Presets\n(6 African & Diaspora Civic Scenarios)"]
+        CRITIC_UI["4-Pillar Critic Meter & Gauges"]
+        DIFF["Holographic Diff & Risk Sandbox"]
+        HITL["High-Security HITL Validation Portal\n(Glassmorphism Blur & Urgent Pulse)"]
+        MANIFEST_UI["Cryptographic HMAC-SHA256 Card"]
+        
+        CANVAS --- HEADER --- DAG
+        DAG --- INPUT --- CRITIC_UI
+        CRITIC_UI --- DIFF --- HITL --- MANIFEST_UI
+    end
 
-        subgraph GRAPH["LangGraph  StateGraph  |  NetsaGuardState  (Pydantic)"]
+    subgraph GATEWAY ["Tier 2: Express Gateway & Firebase Bridge (Port 5000)"]
+        direction TB
+        EXPRESS["Express.js REST & SSE Server"]
+        FIREBASE["Firebase Firestore Audit Trail\n(with In-Memory Demo Fallback)"]
+        STREAMER["LangSmith / Arize Trace Streamer"]
+        EXPRESS <--> FIREBASE
+        EXPRESS --- STREAMER
+    end
+
+    subgraph ENGINE ["Tier 3: LangGraph Multi-Agent Core (FastAPI Port 8000)"]
+        direction TB
+        FASTAPI["FastAPI ASGI Gateway"]
+        
+        subgraph GRAPH ["LangGraph State Machine (NetsaGuardState)"]
             direction LR
-            SUP["Supervisor\nCoordinator"]
-            LING["Linguistic\nSpecialist"]
-            FORE["Disinformation\nForensics"]
-            COMP["Anti-Censorship\nBypass Engine"]
-            CREA["Creative\nOptimizer"]
-            CRIT["Critic & Judge\n80% Threshold"]
-            PII["PII Sanitizer\nEdge Governance"]
-            HN["HITL Checkpoint\ninterrupt_before"]
-            FIN["Cryptographic\nFinalizer"]
-
-            SUP --> LING --> CRIT
-            SUP --> FORE --> CRIT
-            SUP --> COMP --> CRIT
-            SUP --> CREA --> CRIT
-            CRIT -->|"score >= 80%"| PII
-            CRIT -->|"score < 80%, retry"| SUP
-            PII --> HN --> FIN
+            SUP["Supervisor Node\n(Routing & Coordinator)"]
+            
+            subgraph WORKERS ["Parallel / Sequential Workers"]
+                LING["Linguistic Specialist\n(6 Languages: Ge'ez/Qubee/Boko/Latin)"]
+                FORE["Disinformation Forensics\n(MCP Blocklist + ChromaDB Vectors)"]
+                COMP["Anti-Censorship Agent\n(Homoglyphic & Semantic Evasion)"]
+                CREA["Creative Optimizer\n(Headlines & 1.65x Reach)"]
+            end
+            
+            CRIT["Critic & Judge Node\n(4 Pillars, 80% Threshold)"]
+            PII["Edge Governance PII Sanitizer\n(African Phone, Name, GPS Scrubbing)"]
+            CHECKPOINT["HITL Interrupt Checkpoint\n(interrupt_before)"]
+            FINAL["Cryptographic Finalizer\n(HMAC-SHA256 & IPFS CID)"]
+            
+            SUP --> LING --> FORE --> COMP --> CREA --> CRIT
+            CRIT -->|"Score < 80% & cycles < 3\n(Self-Healing Loop)"| SUP
+            CRIT -->|"Score >= 80% or cycles >= 3"| PII
+            PII --> CHECKPOINT
+            CHECKPOINT -->|"Moderator Sign-Off"| FINAL
         end
 
-        FAPI --> GRAPH
+        CHROMA[("ChromaDB Vector Store\n(Historical African Threats)")]
+        MCP_SERVER["FastMCP Server\n(Decentralized Blocklists & Signed Reports)"]
+        
+        FASTAPI --> GRAPH
+        FORE <--> CHROMA
+        FORE <--> MCP_SERVER
+        FINAL <--> MCP_SERVER
     end
 
-    %% ================================================================
-    %%  MEMORY & MCP
-    %% ================================================================
-    subgraph MCP_TIER["Memory & MCP Tool Ecosystem"]
-        direction TB
-        CHROMA[("ChromaDB\nVector Store\nAfrican Threat Embeddings")]
-        MCPS["FastMCP Server\nModel Context Protocol"]
-        TDB["Threat DB Tool\nDecentralized Blocklists\n(6 Languages)"]
-        SGN["HMAC-SHA256\nSigned Manifest Tool\n+ IPFS CID"]
-        MCPS --> TDB
-        MCPS --> SGN
-    end
-
-    %% ================================================================
-    %%  OBSERVABILITY
-    %% ================================================================
-    OBS["LangSmith\nAgentOps & Observability\nStep Tracing + Latency"]
-
-    %% ================================================================
-    %%  CROSS-TIER CONNECTIONS
-    %% ================================================================
-    PWA     <-->|"REST  /api/campaigns"| NODE
-    NODE    <-->|"Proxy Orchestration\nPOST /submit  POST /resume"| FAPI
-    FORE    -.-|"semantic search"| CHROMA
-    COMP    -.-|"threat lookup"| TDB
-    FIN     -.-|"sign manifest"| SGN
-    T3      -->|"LangSmith traces"| OBS
+    UI <-->|"REST & SSE /api/campaigns"| GATEWAY
+    GATEWAY <-->|"Proxy REST /api/campaign"| ENGINE
 ```
 
 ---

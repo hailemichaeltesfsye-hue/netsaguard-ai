@@ -118,7 +118,24 @@ class NetsaGuardState(BaseModel):
     final_output_text: Optional[str] = None
     cryptographic_manifest: Optional[CryptographicManifest] = None
     
-    # Execution Tracking & LangSmith Telemetry
+    # Execution Tracking & LangSmith / Arize Telemetry
     current_node: str = "supervisor"
     execution_logs: List[ExecutionLogEntry] = Field(default_factory=list)
     is_completed: bool = False
+    
+    # Cross-Continental Language Tokens & Trace Metrics
+    cross_continental_tokens: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="African linguistic token breakdown, Unicode Ge'ez/Qubee/Boko scripts and phonetics"
+    )
+    total_tokens_processed: int = Field(default=0, description="Total language tokens parsed across continental nodes")
+    langsmith_trace_id: Optional[str] = Field(default=None, description="Active LangSmith session trace identifier")
+    arize_trace_id: Optional[str] = Field(default=None, description="Arize AI Phoenix evaluation span identifier")
+    node_latencies: Dict[str, float] = Field(
+        default_factory=dict,
+        description="Per-node execution latency tracking in milliseconds"
+    )
+    session_metadata: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="Decentralized network routing and node consensus metadata"
+    )

@@ -4,11 +4,14 @@ Validates state schemas, agent nodes, self-healing loop, PII scrubbing,
 MCP tools, ChromaDB semantic retrieval, and HITL checkpoint resumption.
 """
 
-import pytest
+try:
+    import pytest
+except ImportError:
+    pytest = None
 import uuid
 from state import NetsaGuardState, SupportedLanguage
 from graph import netsaguard_app_graph
-from mcp.server import direct_fetch_threat_db, direct_generate_signed_report
+from mcp_service.server import direct_fetch_threat_db, direct_generate_signed_report
 from memory.vector_store import threat_vector_memory
 from agents.pii_sanitizer import sanitize_african_pii
 
@@ -86,12 +89,19 @@ def test_langgraph_full_orchestration_and_hitl_resumption():
     assert result["threat_report"] is not None
     assert result["pii_sanitization"] is not None
     assert result["critic_evaluation"] is not None
-    assert result["critic_evaluation"]["overall_score"] >= 80.0
+    critic = result["critic_evaluation"]
+    score = critic.overall_score if hasattr(critic, "overall_score") else critic["overall_score"]
+    assert score >= 80.0
     
     # 2. Resume execution after moderator sign-off
     current_values = snapshot.values
-    current_values["hitl_status"] = "APPROVED"
-    current_values["hitl_reviewer_notes"] = "Approved by automated test runner"
+    if isinstance(current_values, dict):
+        current_values["hitl_status"] = "APPROVED"
+        current_values["hitl_reviewer_notes"] = "Approved by automated test runner"
+    else:
+        current_values.hitl_status = "APPROVED"
+        current_values.hitl_reviewer_notes = "Approved by automated test runner"
+        
     netsaguard_app_graph.update_state(config, current_values)
     
     final_result = netsaguard_app_graph.invoke(None, config=config)
@@ -99,9 +109,13 @@ def test_langgraph_full_orchestration_and_hitl_resumption():
     
     # Verify completed
     assert len(final_snapshot.next) == 0
-    assert final_result["is_completed"] is True
-    assert final_result["cryptographic_manifest"] is not None
-    assert final_result["cryptographic_manifest"]["hmac_signature"] != ""
+    is_comp = final_result.get("is_completed") if isinstance(final_result, dict) else final_result.is_completed
+    assert is_comp is True
+    
+    manifest = final_result.get("cryptographic_manifest") if isinstance(final_result, dict) else final_result.cryptographic_manifest
+    assert manifest is not None
+    sig = manifest.hmac_signature if hasattr(manifest, "hmac_signature") else manifest.get("hmac_signature")
+    assert sig != ""
 
 
 if __name__ == "__main__":

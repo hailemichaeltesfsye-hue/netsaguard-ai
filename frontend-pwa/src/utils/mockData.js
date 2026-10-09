@@ -1,9 +1,18 @@
 /**
- * NetsaGuard AI: Multilingual African Campaign Mock Datasets
- * Pre-seeded scenarios for immediate hackathon & capstone judge demonstrations.
+ * NetsaGuard AI: Multilingual African & Global South Campaign Mock Datasets
+ * Pre-seeded scenarios across 6 languages for immediate hackathon & capstone judge demonstrations.
  */
 
 export const CAMPAIGN_PRESETS = [
+  {
+    id: 'preset-english',
+    language: 'english',
+    title: 'Pan-African Digital Rights Alert (English / International)',
+    category: 'Internet Shutdowns & Civil Society Defense',
+    text: `Urgent Civic Alert: Automated platform blocks and internet shutdown detected targeting independent journalists and human rights defenders across the capital. Call legal coordinator Kwame Mensah at +254701234567 or email defense@africarights.org. Block activist de-platforming now! Freedom of expression must prevail!`,
+    expectedFlags: ['internet shutdown', 'block activist'],
+    expectedPII: ['Kwame Mensah', '+254701234567', 'defense@africarights.org']
+  },
   {
     id: 'preset-amharic',
     language: 'amharic',

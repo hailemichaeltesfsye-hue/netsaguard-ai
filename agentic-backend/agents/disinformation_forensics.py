@@ -6,7 +6,7 @@ coordinated botnets, state-sponsored astroturfing, and hazardous disinformation 
 
 from typing import Dict, Any, List
 from state import NetsaGuardState, DisinformationThreatReport, ExecutionLogEntry
-from mcp.server import direct_fetch_threat_db
+from mcp_service.server import direct_fetch_threat_db
 from memory.vector_store import threat_vector_memory
 
 

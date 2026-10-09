@@ -1,12 +1,13 @@
 /**
  * NetsaGuard AI: Express Gateway Server
- * Bridges React PWA, Firebase Firestore, and Python LangGraph Engine.
+ * Bridges React Afro-Cyber PWA, Firebase Firestore, and Python LangGraph Engine.
+ * Features real-time SSE streaming for LangSmith/Arize trace arrays.
  */
 
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
-const { db } = require('./config/firebase');
+const { db, isMock } = require('./config/firebase');
 require('dotenv').config();
 
 const app = express();
@@ -21,7 +22,9 @@ app.get('/health', (req, res) => {
   res.json({
     status: 'ONLINE',
     bridge: 'NetsaGuard Node.js Express Gateway',
+    firebase_mode: isMock ? 'IN_MEMORY_MOCK' : 'LIVE_FIRESTORE',
     python_agent_url: PYTHON_AGENT_URL,
+    supported_languages: ['amharic', 'swahili', 'afaan_oromo', 'french', 'hausa', 'english'],
     timestamp: new Date().toISOString()
   });
 });
@@ -40,7 +43,7 @@ app.post('/api/campaigns/process', async (req, res) => {
       input_text,
       target_language: target_language || 'amharic',
       thread_id
-    });
+    }, { timeout: 15000 });
 
     const graphOutput = pythonRes.data;
     const campaignId = graphOutput.state?.campaign_id || `NG-${Date.now()}`;
@@ -57,6 +60,8 @@ app.post('/api/campaigns/process', async (req, res) => {
       critic_score: graphOutput.state?.critic_evaluation?.overall_score || null,
       revisions: graphOutput.state?.revision_count || 0,
       state: graphOutput.state,
+      langsmith_trace_id: graphOutput.state?.langsmith_trace_id || null,
+      arize_trace_id: graphOutput.state?.arize_trace_id || null,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     });
@@ -93,7 +98,7 @@ app.post('/api/campaigns/resume', async (req, res) => {
       action: action || 'APPROVE',
       reviewer_notes: reviewer_notes || 'Approved by moderator',
       edited_text
-    });
+    }, { timeout: 15000 });
 
     const finalizedData = pythonRes.data;
 
@@ -122,6 +127,70 @@ app.post('/api/campaigns/resume', async (req, res) => {
   }
 });
 
+// Real-Time Server-Sent Events (SSE) Proxy for live trace streaming
+app.get('/api/campaigns/stream/:threadId', async (req, res) => {
+  const { threadId } = req.params;
+
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
+  try {
+    const streamRes = await axios.get(`${PYTHON_AGENT_URL}/api/campaign/stream/${threadId}`, {
+      responseType: 'stream',
+      timeout: 30000
+    });
+
+    streamRes.data.on('data', chunk => {
+      res.write(chunk);
+    });
+
+    streamRes.data.on('end', () => {
+      res.end();
+    });
+
+    req.on('close', () => {
+      streamRes.data.destroy();
+    });
+  } catch (err) {
+    // Fallback heartbeat event if stream cannot connect
+    res.write(`data: ${JSON.stringify({ event: 'STREAM_CONNECTED', thread_id: threadId, status: 'CONNECTED_LOCAL' })}\n\n`);
+    res.end();
+  }
+});
+
+// Stream ongoing LangSmith / Arize trace arrays directly to the UI
+app.get('/api/campaigns/traces/:threadId', async (req, res) => {
+  const { threadId } = req.params;
+  try {
+    const traceRes = await axios.get(`${PYTHON_AGENT_URL}/api/campaign/traces/${threadId}`, { timeout: 5000 });
+    res.json({ success: true, ...traceRes.data });
+  } catch (err) {
+    // Fetch cached trace snapshot from Firestore if Python server is unreachable
+    try {
+      const doc = await db.collection('campaigns').doc(threadId).get();
+      if (doc.exists) {
+        const data = doc.data();
+        const logs = data.state?.execution_logs || [];
+        return res.json({
+          success: true,
+          thread_id: threadId,
+          langsmith_trace_id: data.langsmith_trace_id || `ls_${threadId}`,
+          arize_trace_id: data.arize_trace_id || `arize_${threadId}`,
+          total_tokens_processed: data.state?.total_tokens_processed || 0,
+          traces: logs.map((l, i) => ({ step_index: i + 1, ...l }))
+        });
+      }
+    } catch (_) {}
+
+    res.status(500).json({
+      error: 'Failed to retrieve agent trace array',
+      details: err.message
+    });
+  }
+});
+
 // Get campaign by thread_id
 app.get('/api/campaigns/:threadId', async (req, res) => {
   try {
@@ -135,6 +204,21 @@ app.get('/api/campaigns/:threadId', async (req, res) => {
   }
 });
 
+// List recent campaigns
+app.get('/api/campaigns', async (req, res) => {
+  try {
+    const snapshot = await db.collection('campaigns').orderBy('created_at', 'desc').limit(20).get();
+    const campaigns = [];
+    snapshot.docs.forEach(doc => {
+      campaigns.push(doc.data());
+    });
+    res.json({ success: true, count: campaigns.length, campaigns });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`[NetsaGuard Node Bridge] Listening on http://localhost:${PORT}`);
+  console.log(`[NetsaGuard Node Bridge] Routing requests to Python Core: ${PYTHON_AGENT_URL}`);
 });

@@ -113,10 +113,12 @@ class AfricanThreatVectorStore:
                     doc = results["documents"][0][idx]
                     meta = results["metadatas"][0][idx] if results.get("metadatas") else {}
                     distance = results["distances"][0][idx] if results.get("distances") else 0.0
+                    # Robust normalized similarity score in range (0.0, 1.0]
+                    sim = round(1.0 / (1.0 + max(0.0, distance)), 3)
                     matched_threats.append({
                         "document": doc,
                         "metadata": meta,
-                        "similarity_score": round(1.0 - min(distance, 1.0), 3)
+                        "similarity_score": max(0.05, sim)
                     })
             return matched_threats
         except Exception as e:

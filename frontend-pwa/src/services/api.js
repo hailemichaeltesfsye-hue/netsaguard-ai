@@ -121,10 +121,16 @@ function simulateClientSideLangGraphRun({ inputText, targetLanguage, threadId })
     obfuscated = obfuscated.replace('እገታ', 'እ•ገ•ታ').replace('መንግስት', 'መ/ንግ/ስት');
   } else if (targetLanguage === 'swahili') {
     obfuscated = obfuscated.replace('maandamano', 'mааndаmаnо').replace('barabara', 'bаrаbаrа');
+  } else if (targetLanguage === 'english') {
+    obfuscated = obfuscated.replace('shutdown', 'shüt-döwn').replace('de-platforming', 'de-plаtfоrming');
+  } else if (targetLanguage === 'afaan_oromo') {
+    obfuscated = obfuscated.replace('hiriira', 'hіrііrа').replace('qabsoo', 'qаbsоо');
+  } else if (targetLanguage === 'hausa') {
+    obfuscated = obfuscated.replace('zanga zanga', 'zаngа zаngа');
   }
 
   // 3. Self-Healing Critic Scoring
-  const isFlagged = inputText.includes('መንግስት') || inputText.includes('maandamano') || inputText.includes('zanga');
+  const isFlagged = inputText.includes('መንግስት') || inputText.includes('maandamano') || inputText.includes('zanga') || inputText.includes('shutdown') || inputText.includes('hiriira');
   const criticScore = isFlagged ? 88.5 : 94.0;
   const revisionsCount = isFlagged ? 2 : 0;
 

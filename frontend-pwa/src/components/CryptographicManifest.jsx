@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Award, ShieldCheck, Copy, Check, ExternalLink, Key, Hash } from 'lucide-react';
+import { Award, ShieldCheck, Copy, Check, ExternalLink, Key, Hash, FileCheck, CheckCircle2 } from 'lucide-react';
 
 export default function CryptographicManifest({ manifest, finalOutput, campaignId, targetLanguage }) {
   const [copied, setCopied] = useState(false);
@@ -19,45 +19,61 @@ export default function CryptographicManifest({ manifest, finalOutput, campaignI
   };
 
   return (
-    <div className="cyber-card cyber-card-emerald" style={{ padding: '24px', marginBottom: '24px' }}>
+    <div 
+      className="cyber-card" 
+      style={{ 
+        padding: '24px', 
+        marginBottom: '24px',
+        border: '1.5px solid var(--cyber-emerald)',
+        boxShadow: '0 0 35px var(--cyber-emerald-glow)'
+      }}
+    >
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', flexWrap: 'wrap', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{
-            width: '36px',
-            height: '36px',
-            borderRadius: '8px',
-            background: 'rgba(0, 255, 163, 0.15)',
-            border: '1px solid var(--cyber-emerald)',
+            width: '40px',
+            height: '40px',
+            borderRadius: '10px',
+            background: 'linear-gradient(135deg, rgba(0, 255, 163, 0.25) 0%, rgba(0, 229, 255, 0.15) 100%)',
+            border: '1.5px solid var(--cyber-emerald)',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            boxShadow: '0 0 15px var(--cyber-emerald-glow)'
           }}>
-            <Award style={{ color: 'var(--cyber-emerald)', width: '20px', height: '20px' }} />
+            <Award style={{ color: 'var(--cyber-emerald)', width: '22px', height: '22px' }} />
           </div>
           <div>
-            <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-              Decentralized Cryptographic Audit Manifest
-            </h3>
-            <span style={{ fontSize: '0.75rem', color: 'var(--cyber-emerald)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.01em' }}>
+                Decentralized Cryptographic Audit Manifest
+              </h3>
+              <span className="badge badge-emerald" style={{ fontSize: '0.65rem' }}>TAMPER-PROOF VERIFIED</span>
+            </div>
+            <span style={{ fontSize: '0.76rem', color: 'var(--cyber-emerald)' }}>
               MCP Tool: <code>generate_signed_compliance_report()</code> Certified
             </span>
           </div>
         </div>
 
-        <button onClick={handleCopy} className="btn-cyber-secondary" style={{ padding: '8px 14px', fontSize: '0.8rem' }}>
-          {copied ? <Check style={{ width: '14px', height: '14px', color: 'var(--cyber-emerald)' }} /> : <Copy style={{ width: '14px', height: '14px' }} />}
-          {copied ? 'Manifest Copied!' : 'Export JSON Audit Packet'}
+        <button 
+          onClick={handleCopy} 
+          className="cyber-button cyber-button-outline" 
+          style={{ padding: '8px 16px', fontSize: '0.8rem' }}
+        >
+          {copied ? <Check style={{ width: '15px', height: '15px', color: 'var(--cyber-emerald)' }} /> : <Copy style={{ width: '15px', height: '15px' }} />}
+          {copied ? 'Audit Manifest Copied!' : 'Export JSON Audit Packet'}
         </button>
       </div>
 
       {/* Manifest Data Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '14px', marginBottom: '16px' }}>
         {/* SHA-256 */}
-        <div style={{ background: 'rgba(5, 8, 14, 0.7)', padding: '12px 14px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-glass)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
-            <Hash style={{ width: '13px', height: '13px', color: 'var(--cyber-emerald)' }} />
-            <span>Payload SHA-256 Digest</span>
+        <div style={{ background: 'rgba(5, 8, 14, 0.75)', padding: '14px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-glass)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '6px' }}>
+            <Hash style={{ width: '14px', height: '14px', color: 'var(--cyber-emerald)' }} />
+            <span style={{ fontWeight: 600 }}>Payload SHA-256 Hash Digest</span>
           </div>
           <p style={{ fontSize: '0.78rem', color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', wordBreak: 'break-all' }}>
             {manifest.payload_sha256}
@@ -65,10 +81,10 @@ export default function CryptographicManifest({ manifest, finalOutput, campaignI
         </div>
 
         {/* HMAC Signature */}
-        <div style={{ background: 'rgba(5, 8, 14, 0.7)', padding: '12px 14px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-glass)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
-            <Key style={{ width: '13px', height: '13px', color: 'var(--electric-cyan)' }} />
-            <span>HMAC-SHA256 Digital Signature</span>
+        <div style={{ background: 'rgba(5, 8, 14, 0.75)', padding: '14px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-glass)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '6px' }}>
+            <Key style={{ width: '14px', height: '14px', color: 'var(--electric-cyan)' }} />
+            <span style={{ fontWeight: 600 }}>HMAC-SHA256 Digital Signature</span>
           </div>
           <p style={{ fontSize: '0.78rem', color: 'var(--electric-cyan)', fontFamily: 'var(--font-mono)', wordBreak: 'break-all' }}>
             {manifest.hmac_signature}
@@ -77,9 +93,9 @@ export default function CryptographicManifest({ manifest, finalOutput, campaignI
       </div>
 
       {/* Footer Details */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', fontSize: '0.75rem', color: 'var(--text-muted)', paddingTop: '12px', borderTop: '1px solid var(--border-glass)' }}>
-        <span>Signer Authority: <strong style={{ color: 'var(--text-secondary)' }}>{manifest.signer_identity}</strong></span>
-        <span>IPFS CID: <code style={{ color: 'var(--cyber-emerald)' }}>{manifest.ipfs_cid_mock}</code></span>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', fontSize: '0.76rem', color: 'var(--text-muted)', paddingTop: '14px', borderTop: '1px solid var(--border-glass)' }}>
+        <span>Signer Authority: <strong style={{ color: 'var(--text-primary)' }}>{manifest.signer_identity}</strong></span>
+        <span>IPFS CID: <code style={{ color: 'var(--cyber-emerald)', background: 'rgba(0, 255, 163, 0.1)', padding: '2px 6px', borderRadius: '4px' }}>{manifest.ipfs_cid_mock}</code></span>
         <span>Certified At: {new Date(manifest.issued_at).toLocaleTimeString()}</span>
       </div>
     </div>

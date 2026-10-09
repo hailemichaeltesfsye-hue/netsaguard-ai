@@ -16,7 +16,7 @@ from agents.compliance_anticensorship import compliance_anticensorship_node
 from agents.creative_optimization import creative_optimization_node
 from agents.critic_judge import critic_judge_node
 from agents.pii_sanitizer import pii_sanitizer_node
-from mcp.server import direct_generate_signed_report
+from mcp_service.server import direct_generate_signed_report
 
 
 def hitl_approval_node(state: NetsaGuardState) -> Dict[str, Any]:

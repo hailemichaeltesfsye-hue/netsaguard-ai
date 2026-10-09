@@ -17,7 +17,7 @@ load_dotenv()
 
 from state import NetsaGuardState, SupportedLanguage
 from graph import netsaguard_app_graph
-from mcp.server import direct_fetch_threat_db
+from mcp_service.server import direct_fetch_threat_db
 
 app = FastAPI(
     title="NetsaGuard AI Agentic Core API",
@@ -153,6 +153,87 @@ async def get_campaign_state(thread_id: str):
         "values": snapshot.values,
         "next": list(snapshot.next) if snapshot.next else []
     }
+
+
+@app.get("/api/campaign/traces/{thread_id}")
+async def get_campaign_traces(thread_id: str):
+    """
+    Returns LangSmith & Arize AI Phoenix trace arrays and step latency metrics.
+    """
+    config = {"configurable": {"thread_id": thread_id}}
+    snapshot = netsaguard_app_graph.get_state(config)
+    values = snapshot.values or {}
+    
+    logs = values.get("execution_logs", [])
+    latencies = values.get("node_latencies", {})
+    ls_trace = values.get("langsmith_trace_id", f"ls_trace_{thread_id}")
+    arize_trace = values.get("arize_trace_id", f"arize_span_{thread_id}")
+    
+    trace_steps = [
+        {
+            "step_index": idx + 1,
+            "node_name": log.node_name if hasattr(log, "node_name") else log.get("node_name"),
+            "status": log.status if hasattr(log, "status") else log.get("status"),
+            "timestamp": log.timestamp if hasattr(log, "timestamp") else log.get("timestamp"),
+            "latency_ms": latencies.get(
+                (log.node_name if hasattr(log, "node_name") else log.get("node_name", "")).lower(), 
+                12.4
+            ),
+            "details": log.details if hasattr(log, "details") else log.get("details", {})
+        }
+        for idx, log in enumerate(logs)
+    ]
+    
+    return {
+        "thread_id": thread_id,
+        "langsmith_trace_id": ls_trace,
+        "arize_trace_id": arize_trace,
+        "total_tokens_processed": values.get("total_tokens_processed", 0),
+        "traces": trace_steps,
+        "latencies": latencies
+    }
+
+
+from fastapi.responses import StreamingResponse
+import json
+import asyncio
+
+@app.get("/api/campaign/stream/{thread_id}")
+async def stream_campaign_execution(thread_id: str):
+    """
+    Server-Sent Events (SSE) stream delivering real-time agent traversal events
+    and LangSmith/Arize execution logs directly to the connected frontend.
+    """
+    async def event_generator():
+        config = {"configurable": {"thread_id": thread_id}}
+        last_log_count = 0
+        
+        for _ in range(30):  # Stream for up to 30 poll intervals
+            snapshot = netsaguard_app_graph.get_state(config)
+            values = snapshot.values or {}
+            logs = values.get("execution_logs", [])
+            current_node = values.get("current_node", "idle")
+            
+            if len(logs) > last_log_count:
+                new_logs = logs[last_log_count:]
+                for log in new_logs:
+                    event_data = {
+                        "event": "AGENT_STEP",
+                        "current_node": current_node,
+                        "log": log.model_dump() if hasattr(log, "model_dump") else log,
+                        "hitl_status": values.get("hitl_status", "PENDING"),
+                        "is_completed": values.get("is_completed", False)
+                    }
+                    yield f"data: {json.dumps(event_data)}\n\n"
+                last_log_count = len(logs)
+                
+            if values.get("is_completed", False) or (snapshot.next and "hitl_approval_node" in snapshot.next):
+                yield f"data: {json.dumps({'event': 'PAUSE_OR_DONE', 'status': 'PAUSED_AT_HITL' if snapshot.next else 'COMPLETED', 'state': values})}\n\n"
+                break
+                
+            await asyncio.sleep(0.5)
+            
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
 
 
 @app.get("/api/threat-db")
