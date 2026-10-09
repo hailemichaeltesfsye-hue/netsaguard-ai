@@ -32,6 +32,7 @@
 12. [Quickstart & Installation Guide](#-quickstart--installation-guide-powered-by-uv)
 13. [Testing & Automated Verification](#-testing--automated-verification)
 14. [Capstone Defense & Hackathon Pitch Script](#-capstone-defense--hackathon-pitch-script)
+15. [SafeTech Africa HackLab '26 Showcase & Alignment](#-safetech-africa-hacklab-26-showcase--alignment)
 
 ---
 
@@ -560,4 +561,36 @@ uv run python tests/test_pipeline.py
 
 ---
 
+## 🌍 SafeTech Africa HackLab '26 Showcase & Alignment
+
+> **SafeTech Africa HackLab 2026: Innovating for Safe Spaces, Digital Sovereignty & Rights**  
+> Organized by the **United Nations Population Fund (UNFPA ESARO)** in partnership with the **African Union Commission (AUC)** under the SIARP 2.0 framework.
+
+### Strategic Challenge & Alignment
+NetsaGuard AI was engineered specifically for **Theme 3: Safe Digital Spaces & Digital Sovereignty**. During moments of political change across the continent (e.g., Ethiopian internet blackouts, Kenyan civic mobilizations, EndSARS in Nigeria), civic spaces and digital rights face unprecedented algorithmic choking, keyword bans, and coordinated state astroturfing. 
+
+NetsaGuard AI arms civic activists, digital rights defenders, and citizen journalists with autonomous, privacy-preserving anti-censorship agents and zero-PII leakage guarantees.
+
+### Key Hackathon Metrics & Dates
+- **Timeline**: 29 September 2026 (AU InnoFest '26 Launch) – **18 October 2026 (23:59 CAT Deadline)**
+- **Target Innovators**: Young African Innovators (Ages 18–35)
+- **Grant Award**: 4 Winners (USD $5,000 – $10,000 seed grant per winner)
+- **Midway Milestone**: Virtual showcase of shortlisted finalists
+- **Final Pitch Event**: **YouthConnekt Africa Summit (November 2026)**
+- **Official Application Form**: [Submit on Google Forms](https://forms.gle/ygJb48Kpk6KLwbGQA)
+
+### Official Focal Contacts
+- **Esther Tshimanga**: [etshimanga@gmail.com](mailto:etshimanga@gmail.com)
+- **Sinothando Manala**: [manala@unfpa.org](mailto:manala@unfpa.org)
+- **Bernadette Ssebadduka**: [ssebadduka@unfpa.org](mailto:ssebadduka@unfpa.org)
+- **Nicolette Moodie**: [moodie@unfpa.org](mailto:moodie@unfpa.org)
+
+### Author & Showcase Identity
+- **Lead Developer & Innovator**: **Hailemichael Tesfaye**
+- **LinkedIn Profile**: [linkedin.com/in/hailemichael-tesfaye-2b7114401](https://www.linkedin.com/in/hailemichael-tesfaye-2b7114401/)
+- **GitHub Repository**: [github.com/hailemichaeltesfsye-hue/netsaguard-ai](https://github.com/hailemichaeltesfsye-hue/netsaguard-ai)
+
+---
+
 *Developed with dedication for African Digital Liberties, Privacy-Preserving AI & Human Rights Defense.*
+
