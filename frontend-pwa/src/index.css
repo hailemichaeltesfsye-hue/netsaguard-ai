@@ -6,37 +6,37 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Ethiopic:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-obsidian-void: #05080e;
-  --bg-obsidian-surface: #0a101d;
-  --bg-obsidian-card: rgba(14, 21, 35, 0.78);
-  --bg-obsidian-card-hover: rgba(20, 30, 50, 0.88);
+  --bg-obsidian-void: #020408;
+  --bg-obsidian-surface: #050810;
+  --bg-obsidian-card: rgba(8, 13, 22, 0.93);
+  --bg-obsidian-card-hover: rgba(12, 18, 30, 0.96);
 
   --cyber-emerald: #00ffa3;
-  --cyber-emerald-glow: rgba(0, 255, 163, 0.4);
-  --cyber-emerald-dim: rgba(0, 255, 163, 0.12);
+  --cyber-emerald-glow: rgba(0, 255, 163, 0.35);
+  --cyber-emerald-dim: rgba(0, 255, 163, 0.1);
 
   --glowing-amber: #ffb800;
-  --glowing-amber-glow: rgba(255, 184, 0, 0.4);
-  --glowing-amber-dim: rgba(255, 184, 0, 0.14);
+  --glowing-amber-glow: rgba(255, 184, 0, 0.35);
+  --glowing-amber-dim: rgba(255, 184, 0, 0.12);
 
   --electric-cyan: #00e5ff;
-  --electric-cyan-glow: rgba(0, 229, 255, 0.4);
-  --electric-cyan-dim: rgba(0, 229, 255, 0.12);
+  --electric-cyan-glow: rgba(0, 229, 255, 0.35);
+  --electric-cyan-dim: rgba(0, 229, 255, 0.1);
 
   --neon-crimson: #ff3366;
-  --neon-crimson-glow: rgba(255, 51, 102, 0.45);
-  --neon-crimson-dim: rgba(255, 51, 102, 0.15);
+  --neon-crimson-glow: rgba(255, 51, 102, 0.4);
+  --neon-crimson-dim: rgba(255, 51, 102, 0.12);
 
   --cyber-violet: #c084fc;
-  --cyber-violet-glow: rgba(192, 132, 252, 0.35);
+  --cyber-violet-glow: rgba(192, 132, 252, 0.3);
 
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
 
-  --border-glass: rgba(255, 255, 255, 0.08);
-  --border-glass-bright: rgba(255, 255, 255, 0.2);
-  --border-emerald: rgba(0, 255, 163, 0.4);
+  --border-glass: rgba(255, 255, 255, 0.07);
+  --border-glass-bright: rgba(255, 255, 255, 0.16);
+  --border-emerald: rgba(0, 255, 163, 0.35);
 
   --font-sans: 'Space Grotesk', -apple-system, sans-serif;
   --font-ethiopic: 'Noto Sans Ethiopic', 'Space Grotesk', sans-serif;
@@ -47,9 +47,9 @@
   --radius-lg: 20px;
   --radius-full: 9999px;
 
-  --shadow-cyber: 0 10px 30px -10px rgba(0, 0, 0, 0.8), 0 0 25px -5px var(--cyber-emerald-glow);
-  --shadow-amber: 0 10px 30px -10px rgba(0, 0, 0, 0.8), 0 0 25px -5px var(--glowing-amber-glow);
-  --shadow-crimson: 0 10px 30px -10px rgba(0, 0, 0, 0.8), 0 0 25px -5px var(--neon-crimson-glow);
+  --shadow-cyber: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 20px -5px var(--cyber-emerald-glow);
+  --shadow-amber: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 20px -5px var(--glowing-amber-glow);
+  --shadow-crimson: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 20px -5px var(--neon-crimson-glow);
 }
 
 * {
@@ -61,16 +61,21 @@
 body {
   background-color: var(--bg-obsidian-void);
   background-image: 
-    radial-gradient(circle at 15% 15%, rgba(0, 255, 163, 0.04) 0%, transparent 40%),
-    radial-gradient(circle at 85% 85%, rgba(0, 229, 255, 0.04) 0%, transparent 40%),
-    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    radial-gradient(ellipse at 50% -10%, rgba(0, 100, 80, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(50, 20, 100, 0.07) 0%, transparent 55%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.008) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.008) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 52px 52px, 52px 52px;
   color: var(--text-primary);
   font-family: var(--font-sans);
   min-height: 100vh;
   overflow-x: hidden;
   line-height: 1.5;
+}
+
+/* Ambient storm glow overlay injected as pseudo-element via html */
+html {
+  background: #020408;
 }
 
 /* Ethiopic Script Optimization */
@@ -259,6 +264,17 @@ body {
 @keyframes pulse-ring {
   0% { transform: scale(1); opacity: 0.9; }
   100% { transform: scale(2.8); opacity: 0; }
+}
+
+/* Lightning atmosphere flash for UI cards */
+@keyframes lightning-atmosphere {
+  0%, 92%, 100% { box-shadow: var(--shadow-cyber); }
+  94% { box-shadow: 0 0 60px rgba(0, 229, 255, 0.18), 0 0 120px rgba(192, 132, 252, 0.10); }
+  96% { box-shadow: 0 0 30px rgba(0, 255, 163, 0.12), 0 0 80px rgba(0, 229, 255, 0.08); }
+}
+
+.cyber-card {
+  animation: lightning-atmosphere 8s infinite ease-in-out;
 }
 
 /* High-Security Urgent Neon Pulse for HITL */
