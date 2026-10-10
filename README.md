@@ -1,4 +1,4 @@
-# NetsaGuard AI: Decentralized, Privacy-Preserving Agentic Content Hub & Multilingual Anti-Censorship Network
+# NetsaGuard AI: Privacy-Preserving Multilingual Agentic Content Safety Hub
 
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![LangGraph](https://img.shields.io/badge/Orchestration-LangGraph-FF6F00?style=for-the-badge&logo=chainlink&logoColor=white)](https://langchain-ai.github.io/langgraph/)
