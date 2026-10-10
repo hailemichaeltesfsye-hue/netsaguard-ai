@@ -11,8 +11,7 @@
 [![Firebase](https://img.shields.io/badge/Database-Firebase%20Firestore-FFA611?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-> **Hailemichael Tesfaye's Capstone Project & Hackathon Showcase**
-> *Africa-First Digital Rights Defense, Censorship Evasion, Multilingual Agentic Orchestration & Decentralized Privacy Governance.*
+> **Hailemichael Tesfaye's Capstone Project & Hackathon Showcase** *Africa-First Digital Rights Defense, Multilingual Agentic Orchestration & Privacy-Preserving Governance.*
 
 ---
 
@@ -48,8 +47,9 @@ Existing Western-centric moderation tools fail catastrophically on African lingu
 
 1. **Low-Resource Language Blindspots**: Neglect of indigenous and cross-border languages such as **Amharic**, **Swahili**, **Afaan Oromo**, **French**, **Hausa**, and **English** (for Pan-African diaspora and international advocacy).
 2. **Centralized Vulnerability**: Centralized social platforms expose human rights defenders, citizen journalists, and civic activists to state surveillance, PII doxxing, and account de-platforming.
-3. **Wrongful Takedowns & Shadowbans: Creators, including women sharing SRHR and rights-based content, lack tools to understand why automated moderation flags their posts and how to rephrase them while preserving the message.
-**NetsaGuard AI** addresses this crisis through a 	privacy-first multi-agent architecture built on **LangGraph**, **Model Context Protocol (MCP)**, **ChromaDB**, **Groq ultra-fast inference**, and an **Afro-Cyber Glassmorphic PWA**.
+3. **Wrongful Takedowns & Shadowbans**: Creators, including women sharing SRHR and rights-based content, lack tools to understand why automated moderation flags their posts and how to rephrase them while preserving the message.
+
+**NetsaGuard AI** addresses this crisis through a privacy-first multi-agent architecture built on **LangGraph**, **Model Context Protocol (MCP)**, **ChromaDB**, **Groq ultra-fast inference**, and an **Afro-Cyber Glassmorphic PWA**.
 
 ---
 
@@ -547,18 +547,18 @@ uv run python tests/test_pipeline.py
 ## Capstone Defense & Hackathon Pitch Script
 
 ### Opening Hook (30 seconds)
-> *"Across Africa, internet shutdowns, keyword filtering, and state-sponsored botnets silence citizens during critical elections and civic movements. Standard AI moderation tools ignore African languages like Amharic, Swahili, and Oromo. Today, we introduce NetsaGuard AI — an Africa-first, decentralized multi-agent defense network."*
+> *"Across Africa, internet shutdowns, keyword filtering, and biased automated moderation silence citizens, and women creators and activists are among the most targeted. Standard AI moderation tools ignore African languages like Amharic, Swahili, and Oromo. Today, we introduce NetsaGuard AI, a privacy-preserving, multilingual multi-agent safety network built to protect legitimate voices online."*
 
 ### Live Technical Walkthrough (2 minutes)
 1. **Multilingual Ingestion**: Select the **Amharic** preset containing civic keywords and an Ethiopian phone number (`+251 911 234567`).
 2. **Multi-Agent Processing**: Click **"Engage Multi-Agent Pipeline"**. Watch the animated DAG radar coordinate the 4 worker agents in real time.
-3. **Self-Healing Loop**: Show the Critic Judge evaluate the payload and trigger automated refinement loops until the resilience score exceeds 80%.
+3. **Self-Healing Loop**: Show the Critic Judge evaluate the payload and trigger automated refinement loops until the score exceeds 80%.
 4. **Edge Governance Scrubbing**: Show the PII Sanitizer automatically masking the phone number and activist names.
 5. **HITL Sign-Off**: The system pauses at the `interrupt_before` checkpoint. Review the holographic diff and click **"Approve & Sign"**.
-6. **Cryptographic Certification**: Watch the FastMCP server issue the HMAC-SHA256 signed manifest and mock IPFS CID.
+6. **Cryptographic Certification**: Watch the FastMCP server issue the HMAC-SHA256 signed manifest and a demo placeholder CID.
 
 ### Conclusion (30 seconds)
-> *"NetsaGuard AI combines cutting-edge LangGraph orchestration, Model Context Protocol tooling, ChromaDB vector memory, Groq ultra-fast inference, and privacy-preserving edge governance to safeguard freedom of speech across the African continent."*
+> *"NetsaGuard AI combines LangGraph orchestration, Model Context Protocol tooling, ChromaDB vector memory, Groq inference, and privacy-preserving edge governance to help protect freedom of expression, especially for women and young people, across the African continent."*
 
 ---
 
