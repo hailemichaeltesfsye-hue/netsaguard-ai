@@ -565,15 +565,64 @@ uv run python tests/test_pipeline.py
 
 ---
 
+## Gender, Youth & Inclusion Impact
+
+### Why this matters
+Women and girls face the highest risk of technology-facilitated violence (TF-VAWG), including doxxing, harassment, and coordinated de-platforming. Women creators who share sexual and reproductive health and rights (SRHR) information also face wrongful content removal on major platforms. Moderation tools often miss abuse in African languages. NetsaGuard AI is built to help protect these users.
+
+### How NetsaGuard AI helps
+- **Privacy protection:** A PII sanitizer masks phone numbers, names, GPS coordinates, and emails before content is shared. This reduces doxxing risk for women activists, survivors, and young organizers.
+- **Local-language safety:** Supports Amharic, Afaan Oromo, Swahili, Hausa, French, and English, covering Ge'ez, Latin, and Boko scripts.
+- **Protecting legitimate content:** Helps creators check whether their SRHR and rights-based content is likely to be wrongly flagged by automated moderation, so they can adjust wording while keeping the message accurate.
+- **Human oversight:** A human moderator reviews and approves every output before release. The system supports people and does not replace their judgment.
+- **Youth-led:** Built by a young African developer, with a plan to co-design with women-led and youth organizations.
+
+### Inclusion & Accessibility
+
+**Available now**
+- Multilingual interface in six languages
+- Installable PWA that works on low-cost Android phones and desktops through the browser
+- Human-in-the-loop review before any content is released
+
+**Planned**
+- **Low-data mode:** text-first interface and compressed assets for slow or metered connections
+- **Offline-first drafting:** write and queue content offline, then sync when connectivity returns
+- **SMS/USSD fallback** via Africa's Talking, to reach users without smartphones or reliable internet
+- **Disability accessibility:** screen-reader support, keyboard navigation, high-contrast mode, adjustable text size (target: WCAG 2.1 AA)
+- **Voice input and audio output** in local languages for users with low literacy or visual impairments
+- **Plain-language safety guidance** in each supported language
+- **Co-design testing** with women-led organizations, rural youth, and persons with disabilities
+
+### Safeguarding & Ethics
+- Personal data is masked before processing or sharing, and users are told what is stored and why.
+- Sensitive cases (threats, harassment, risk to safety) are routed to a human rather than handled automatically.
+- Automated results are advisory and clearly labeled, and a person makes the final decision.
+- We follow UNFPA's guidance on safe and ethical technology for gender-based violence and the UN principles for the ethical use of AI.
+
+### 12-Month Roadmap
+
+*Status: a working prototype exists today. The roadmap covers hardening, real-world piloting, and inclusive access.*
+
+| Phase | Months | Focus | Outputs |
+|-------|--------|-------|---------|
+| **1. Research & Data** | 1-3 | Curate localized TF-VAWG, anti-rights, and deepfake indicators with regional digital rights groups. Run user research with 2-3 women-led or youth organizations. Build language tokenizers (Amharic, Swahili, Afaan Oromo, French, Hausa). Finalize shared state and ChromaDB policy memory. | Curated dataset, tokenizer benchmarks, user research findings, data and privacy policy |
+| **2. Core Engineering** | 4-6 | Productionize the LangGraph multi-agent pipeline, supervisor routing, and the self-healing critic loop (80% threshold, max 3 cycles). Run an early user test with student volunteers, including women. | Tested agent pipeline, automated test suite, early user feedback |
+| **3. Portal & Governance** | 7-9 | React and Express web portal, Firebase incident queue, signed incident reports, PII scrubbing, human-in-the-loop approval, LangSmith tracing. Add accessibility features (screen reader, keyboard, high contrast, low-data mode). | Working portal, audit trail, accessibility checklist |
+| **4. Localization & Launch** | 10-12 | Native-language testing, adversarial security audit, SMS/USSD fallback via Africa's Talking, open-source PWA release, student pilot chapter at Wollo University (Kombolcha). | Security audit report, SMS/USSD prototype, public release, pilot with student users, impact report |
+
+**Pilot success metrics:** users reached, share of women among users, languages used, content issues caught, and user feedback.
+
+> **Transparency note:** The reach estimate, IPFS CID, and threat database entries in the current demo are simulated for demonstration. The roadmap covers replacing these with real data and integrations.
 ## 🌍 SafeTech Africa HackLab '26 Showcase & Alignment
 
 > **SafeTech Africa HackLab 2026: Innovating for Safe Spaces, Digital Sovereignty & Rights**  
 > Organized by the **United Nations Population Fund (UNFPA ESARO)** in partnership with the **African Union Commission (AUC)** under the SIARP 2.0 framework.
 
 ### Strategic Challenge & Alignment
-NetsaGuard AI was engineered specifically for **Theme 3: Safe Digital Spaces & Digital Sovereignty**. During moments of political change across the continent (e.g., Ethiopian internet blackouts, Kenyan civic mobilizations, EndSARS in Nigeria), civic spaces and digital rights face unprecedented algorithmic choking, keyword bans, and coordinated state astroturfing. 
 
-NetsaGuard AI arms civic activists, digital rights defenders, and citizen journalists with autonomous, privacy-preserving anti-censorship agents and zero-PII leakage guarantees.
+NetsaGuard AI is built for **Theme 3: Safe Digital Spaces** (countering anti-rights narratives, censorship, and technology-facilitated violence against women and girls). Women creators who share SRHR and rights-based content are often wrongly flagged or silenced by automated moderation, and moderation tools frequently miss abuse written in African languages. NetsaGuard AI helps protect these users with multilingual analysis, PII redaction, and human oversight.
+
+NetsaGuard AI arms civic activists, digital rights defenders, women creators, and citizen journalists with privacy-preserving, multilingual tools that protect legitimate content from wrongful moderation, with built-in PII redaction and human review before release.
 
 ### Key Hackathon Metrics & Dates
 
