@@ -151,13 +151,13 @@ mindmap
       Supervisor Coordinator Node
       Linguistic Specialist Agent
       Disinformation Forensics Agent
-      Compliance AntiCensorship Agent
+      Content Protection Agent
       Creative Optimization Agent
       Critic Judge Self-Healing Loop
       PII Sanitizer Edge Governance
     MCP Tools
       FastMCP Server
-      Decentralized Threat DB
+      Shared Threat Blocklists
       HMAC-SHA256 Manifest Signer
     Vector Memory
       ChromaDB Persistent Store
@@ -191,19 +191,19 @@ flowchart LR
         direction TB
         LING["LINGUISTIC SPECIALIST\n─────────────────────\nScript Detection\nGe'ez / Qubee / Boko / Latin\nSentiment and Cultural Tags\nToken Count and Confidence"]
         FORE["DISINFORMATION FORENSICS\n─────────────────────\nMCP Blocklist Query\nChromaDB Vector Search\nBotnet Probability Score"]
-        COMP["ANTI-CENSORSHIP ENGINE\n─────────────────────\nHomoglyphic Substitution\nSemantic Reframing\nPlatform Risk Simulation\nTwitter Meta Telegram TikTok"]
-        CREA["CREATIVE OPTIMIZER\n─────────────────────\nViral Headlines Generator\nAfrican Civic Hashtag Sets\nCall-to-Action Builder\n1.65x Reach Multiplier"]
+        COMP["CONTENT PROTECTION ENGINE\n─────────────────────\nWrongful-Flag Risk Checks\nSafe Rephrasing\nPlatform Risk Simulation\nTwitter Meta Telegram TikTok"]
+        CREA["CREATIVE OPTIMIZER\n─────────────────────\nHeadline Suggestions\nAfrican Civic Hashtag Sets\nCall-to-Action Builder\nEstimated Reach (simulated)"]
     end
 
     SUP["SUPERVISOR\nCOORDINATOR\n─────────────\nRoutes to workers\nLogs orchestration\nManages revisions"]
 
-    CRIT["CRITIC AND JUDGE NODE\n══════════════════════════\nLinguistic Quality     25 pts\nEvasion Resilience     35 pts\nForensics Cleanliness  25 pts\nCreative Reach         15 pts\n──────────────────────────\nTotal Score out of 100\nThreshold: 80 points"]
+    CRIT["CRITIC AND JUDGE NODE\n══════════════════════════\nLinguistic Quality     25 pts\nModeration-Risk Resilience  35 pts\nForensics Cleanliness  25 pts\nCreative Reach         15 pts\n──────────────────────────\nTotal Score out of 100\nThreshold: 80 points"]
 
     PII["PII SANITIZER\n─────────────────────\n+251 Ethiopia Phones\n+254 Kenya Phones\n+234 Nigeria Phones\nGe'ez Latin Names\nGPS Coordinates\nEmail Addresses"]
 
     HITL["HITL CHECKPOINT\n─────────────────────\nLangGraph PAUSE\ninterrupt_before\nAwaiting Moderator\nSide-by-Side Diff UI"]
 
-    FINAL["CRYPTOGRAPHIC FINALIZER\n─────────────────────\nHMAC-SHA256 Signing\nIPFS CID Generation\nAudit Manifest Output\nMCP Tool Invocation"]
+    FINAL["CRYPTOGRAPHIC FINALIZER\n─────────────────────\nHMAC-SHA256 Signing\nDemo CID Generation\nAudit Manifest Output\nMCP Tool Invocation"]
 
     ENDD(["END"])
 
@@ -248,9 +248,9 @@ sequenceDiagram
         UI ->> GW  : POST /api/campaigns/process
         GW ->> FA  : POST /api/campaign/submit with thread_id
         FA ->> SUP : Invoke NetsaGuardState graph
-        SUP ->> WRK: Dispatch to Linguistic, Forensics, Bypass, Creative
-        WRK ->> MCP: Query ChromaDB and Decentralized Threat Blocklists
-        MCP -->> WRK: Threat hashes, historical vectors, evasion homoglyphs
+        SUP ->> WRK: Dispatch to Linguistic, Forensics, Protection, Creative
+        WRK ->> MCP: Query ChromaDB and Shared Threat Blocklists
+        MCP -->> WRK: Threat hashes, historical vectors, risk signals
         WRK -->> CRT: Aggregate analysis outputs and platform risk scores
     end
 
@@ -258,7 +258,7 @@ sequenceDiagram
         Note over CRT,SUP: PHASE 2 — Self-Healing Critic Evaluation Loop
         alt Score is below 80% AND revision count is below 3
             CRT ->> SUP : Reject with targeted remediation instructions
-            SUP ->> WRK : Re-execute with refined anti-censorship strategy
+            SUP ->> WRK : Re-execute with refined rephrasing strategy
             WRK -->> CRT: Return improved variant outputs
         else Score is 80% or above, or max revisions reached
             CRT ->> PII : Forward to Edge Governance Sanitizer
@@ -284,7 +284,7 @@ sequenceDiagram
     rect rgb(20, 45, 70)
         Note over CHK,UI: PHASE 5 — Cryptographic Certification and Delivery
         CHK ->> MCP: Call generate_signed_compliance_report
-        MCP -->> UI: HMAC-SHA256 Signature plus IPFS CID plus Audit Manifest
+        MCP -->> UI: HMAC-SHA256 Signature plus Demo CID plus Audit Manifest
         Note over D,UI: Tamper-Proof Verification Badge Delivered to Moderator
     end
 ```
