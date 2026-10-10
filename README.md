@@ -48,9 +48,8 @@ Existing Western-centric moderation tools fail catastrophically on African lingu
 
 1. **Low-Resource Language Blindspots**: Neglect of indigenous and cross-border languages such as **Amharic**, **Swahili**, **Afaan Oromo**, **French**, **Hausa**, and **English** (for Pan-African diaspora and international advocacy).
 2. **Centralized Vulnerability**: Centralized social platforms expose human rights defenders, citizen journalists, and civic activists to state surveillance, PII doxxing, and account de-platforming.
-3. **Absence of Autonomous Anti-Censorship**: Content creators lack proactive tools to bypass automated platform shadowban filters while preserving message fidelity.
-
-**NetsaGuard AI** addresses this crisis through a decentralized, privacy-first multi-agent architecture built on **LangGraph**, **Model Context Protocol (MCP)**, **ChromaDB**, **Groq ultra-fast inference**, and an **Afro-Cyber Glassmorphic PWA**.
+3. **Absence of Autonomous Anti-Censorship**: Wrongful Takedowns & Shadowbans: Creators, including women sharing SRHR and rights-based content, lack tools to understand why automated moderation flags their posts and how to rephrase them while preserving the message.
+**NetsaGuard AI** addresses this crisis through a 	privacy-first multi-agent architecture built on **LangGraph**, **Model Context Protocol (MCP)**, **ChromaDB**, **Groq ultra-fast inference**, and an **Afro-Cyber Glassmorphic PWA**.
 
 ---
 
