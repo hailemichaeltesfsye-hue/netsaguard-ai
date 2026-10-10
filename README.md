@@ -551,7 +551,7 @@ uv run python tests/test_pipeline.py
 
 ### Live Technical Walkthrough (2 minutes)
 1. **Multilingual Ingestion**: Select the **Amharic** preset containing civic keywords and an Ethiopian phone number (`+251 911 234567`).
-2. **Multi-Agent Processing**: Click **"Engage Multi-Agent Pipeline"**. Watch the animated DAG radar coordinate the 4 worker agents in real time.
+2. **Multi-Agent Processing**: Click **"Initiate Multi-Agent Pipeline"**. Watch the animated DAG radar coordinate the 4 worker agents in real time.
 3. **Self-Healing Loop**: Show the Critic Judge evaluate the payload and trigger automated refinement loops until the score exceeds 80%.
 4. **Edge Governance Scrubbing**: Show the PII Sanitizer automatically masking the phone number and activist names.
 5. **HITL Sign-Off**: The system pauses at the `interrupt_before` checkpoint. Review the holographic diff and click **"Approve & Sign"**.
