@@ -48,7 +48,7 @@ Existing Western-centric moderation tools fail catastrophically on African lingu
 
 1. **Low-Resource Language Blindspots**: Neglect of indigenous and cross-border languages such as **Amharic**, **Swahili**, **Afaan Oromo**, **French**, **Hausa**, and **English** (for Pan-African diaspora and international advocacy).
 2. **Centralized Vulnerability**: Centralized social platforms expose human rights defenders, citizen journalists, and civic activists to state surveillance, PII doxxing, and account de-platforming.
-3. **Absence of Autonomous Anti-Censorship**: Wrongful Takedowns & Shadowbans: Creators, including women sharing SRHR and rights-based content, lack tools to understand why automated moderation flags their posts and how to rephrase them while preserving the message.
+3. **Wrongful Takedowns & Shadowbans: Creators, including women sharing SRHR and rights-based content, lack tools to understand why automated moderation flags their posts and how to rephrase them while preserving the message.
 **NetsaGuard AI** addresses this crisis through a 	privacy-first multi-agent architecture built on **LangGraph**, **Model Context Protocol (MCP)**, **ChromaDB**, **Groq ultra-fast inference**, and an **Afro-Cyber Glassmorphic PWA**.
 
 ---
@@ -69,7 +69,7 @@ flowchart TB
         DIFF["Holographic Diff & Risk Sandbox"]
         HITL["High-Security HITL Validation Portal\n(Glassmorphism Blur & Urgent Pulse)"]
         MANIFEST_UI["Cryptographic HMAC-SHA256 Card"]
-        
+
         CANVAS --- HEADER --- DAG
         DAG --- INPUT --- CRITIC_UI
         CRITIC_UI --- DIFF --- HITL --- MANIFEST_UI
@@ -87,23 +87,23 @@ flowchart TB
     subgraph ENGINE ["Tier 3: LangGraph Multi-Agent Core (FastAPI Port 8000)"]
         direction TB
         FASTAPI["FastAPI ASGI Gateway"]
-        
+
         subgraph GRAPH ["LangGraph State Machine (NetsaGuardState)"]
             direction LR
             SUP["Supervisor Node\n(Routing & Coordinator)"]
-            
+
             subgraph WORKERS ["Parallel / Sequential Workers"]
                 LING["Linguistic Specialist\n(6 Languages: Ge'ez/Qubee/Boko/Latin)"]
                 FORE["Disinformation Forensics\n(MCP Blocklist + ChromaDB Vectors)"]
-                COMP["Anti-Censorship Agent\n(Homoglyphic & Semantic Evasion)"]
-                CREA["Creative Optimizer\n(Headlines & 1.65x Reach)"]
+                COMP["Content Protection Agent\n(Wrongful-Flag Checks & Safe Rephrasing)"]
+                CREA["Creative Optimizer\n(Headlines & Estimated Reach, simulated)"]
             end
-            
+
             CRIT["Critic & Judge Node\n(4 Pillars, 80% Threshold)"]
             PII["Edge Governance PII Sanitizer\n(African Phone, Name, GPS Scrubbing)"]
             CHECKPOINT["HITL Interrupt Checkpoint\n(interrupt_before)"]
-            FINAL["Cryptographic Finalizer\n(HMAC-SHA256 & IPFS CID)"]
-            
+            FINAL["Cryptographic Finalizer\n(HMAC-SHA256 & Demo CID)"]
+
             SUP --> LING --> FORE --> COMP --> CREA --> CRIT
             CRIT -->|"Score < 80% & cycles < 3\n(Self-Healing Loop)"| SUP
             CRIT -->|"Score >= 80% or cycles >= 3"| PII
@@ -112,8 +112,8 @@ flowchart TB
         end
 
         CHROMA[("ChromaDB Vector Store\n(Historical African Threats)")]
-        MCP_SERVER["FastMCP Server\n(Decentralized Blocklists & Signed Reports)"]
-        
+        MCP_SERVER["FastMCP Server\n(Shared Threat Blocklists & Signed Reports)"]
+
         FASTAPI --> GRAPH
         FORE <--> CHROMA
         FORE <--> MCP_SERVER
@@ -123,8 +123,6 @@ flowchart TB
     UI <-->|"REST & SSE /api/campaigns"| GATEWAY
     GATEWAY <-->|"Proxy REST /api/campaign"| ENGINE
 ```
-
----
 
 ## Technology Stack Overview
 
