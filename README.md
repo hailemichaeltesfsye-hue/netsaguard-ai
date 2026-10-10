@@ -576,12 +576,13 @@ NetsaGuard AI was engineered specifically for **Theme 3: Safe Digital Spaces & D
 NetsaGuard AI arms civic activists, digital rights defenders, and citizen journalists with autonomous, privacy-preserving anti-censorship agents and zero-PII leakage guarantees.
 
 ### Key Hackathon Metrics & Dates
+
 - **Timeline**: 29 September 2026 (AU InnoFest '26 Launch) – **18 October 2026 (23:59 CAT Deadline)**
-- **Target Innovators**: Young African Innovators (Ages 18–35)
+- **Target Innovators**: Young African Innovators (Ages 18–24)
 - **Grant Award**: 4 Winners (USD $5,000 – $10,000 seed grant per winner)
-- **Midway Milestone**: Virtual showcase of shortlisted finalists
-- **Final Pitch Event**: **YouthConnekt Africa Summit (November 2026)**
-- **Official Application Form**: [Submit on Google Forms](https://forms.gle/ygJb48Kpk6KLwbGQA)
+- **Midway Milestone**: Virtual showcase of shortlisted finalists, with virtual mentorship using the UNFPA Social Innovation Toolkit
+- **Final Pitch Event**: YouthConnekt Africa Summit (November 2026, in person)
+- **Application Status**: ✅ Submitted via the official Google Form
 
 ### Official Focal Contacts
 - **Esther Tshimanga**: [etshimanga@gmail.com](mailto:etshimanga@gmail.com)
